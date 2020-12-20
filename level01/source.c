@@ -4,17 +4,17 @@
 #include <string.h>
 #include <stdlib.h>
 
-char *a_user_name; // 0x804a040
+char a_user_name[256]; // 0x804a040
 
 int verify_user_name(void)
 {
 	puts("verifying username....\n");
-	return strncmp("dat_wil", a_user_name, 7); // not really a call to strncmp function
+	return memcmp("dat_wil", a_user_name, 7); // not really a call to memcmp function
 }
 
 int verify_user_pass(char *pass)
 {
-	return strncmp("admin", pass, 5); // not really a call to strncmp function
+	return memcmp("admin", pass, 5); // not really a call to memcmp function
 }
 
 int main(int argc, const char **argv)
