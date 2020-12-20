@@ -1,0 +1,7 @@
+.vscode/
+lab*/
+*.o
+*.out
+shellcode
+shellcode_light
+generator
