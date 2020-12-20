@@ -4,7 +4,7 @@ Lorsqu'on exécute le binaire un username est demandé sur l'entrée standard.
 
 En désassemblant le binaire, on a deux fonctions _verify_user_name_ et _verify_user_pass_ appelées par la fonction _main_.
 
-Le code asm est assez classique comme vu dans le projet rainfall. Cepdendant, il y a quelques instructions un peu spéciales dans nos deux fonctions \_verify\_\_ :
+Le code asm est assez classique comme vu dans le projet rainfall. Cepdendant, il y a quelques instructions un peu spéciales dans nos deux fonctions _verify_ :
 
 ```asm
 mov    eax,DWORD PTR [ebp+0x8]
@@ -55,7 +55,7 @@ qui va comparer les deux chaînes de caractères pointées par `esi` et `edi`. L
 rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
 ```
 
-Les prochines instructions :
+Les prochaines instructions :
 
 ```asm
 seta   dl
@@ -69,7 +69,7 @@ movsx  eax,al
 mettent le resgistre `eax` à 0 uniquement si les deux chaînes de caractères sont équivalentes sur la portion demandée.
 Cela ressemble beaucoup à la fonction memcmp dans l'idée.
 
-Le registre `eax` représentant la valeur retournée d'une fonction, les fonctions \_verify\_\_ renveront le résultat de cette comparaison.
+Le registre `eax` représentant la valeur retournée d'une fonction, les fonctions _verify_ renveront le résultat de cette comparaison.
 
 A partir de ce code et à l'aide de gdb, on peut réécrire en C un code source :
 
@@ -163,11 +163,8 @@ On va donc devoir trouver une faille pour pouvoir insérer du shellcode.
 On remarque que la fonction `fgets` utilisé pour obtenir le mot de passe, lit 100 caractères alors que le buffer en fait 64. On peut donc user d'un stack buffer overflow pour écraser l'**eip sauvegardé**.
 
 On appele **eip sauvegardé** l'adresse contenue dans la registre eip qui a été copiée dans la stack.
-
 Le registre `eip` contient habituellement l'adresse de la prochaine instruction à exécuté.
-
 Avec un stack buffer overflow on peut la remplacer pour pouvoir se déplacer dans notre programme et exécuter du code que l'on veut.
-
 On va donc injecter un shellcode et remplacer l'**eip sauvegardé** par l'adresse où se situe notre shellcode.
 
 On peut par exemple injecter du shellcode, dans le premier argument. En effet, c'est un buffer assez gros de 256 caractères, ce qui nous laisse pas mal de place pour écrire notre shellcode.
