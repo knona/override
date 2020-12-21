@@ -4,6 +4,16 @@
 #include <strings.h>
 #include <stdlib.h>
 
+// r < <(sleep .3 ; cat test test)
+
+// b *0x4008ad  set $rax = 0x00007ffff7dd4340
+
+// PwBLgNa8p8MTKW57S7zxVAQCxnCpV8JqTTs9XEBv
+
+// b *0x400981 set $rax = 0x00007ffff7dd4180
+
+// b *0x400a24
+
 int main(int argc, const char **argv)
 {
 	char *password[96];		 // rbp-0x110
@@ -84,7 +94,8 @@ int main(int argc, const char **argv)
 
 	if (tmp != 41)
 	{
-		fwrite("ERROR: failed to read password file\n", 1, 36, stdout);
+		fwrite("ERROR: failed to read password file\n", 1, 36, stderr);
+		fwrite("ERROR: failed to read password file\n", 1, 36, stderr);
 		exit(1);
 	}
 	fclose(file);
