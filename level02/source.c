@@ -6,68 +6,68 @@
 
 int main(int argc, const char **argv)
 {
-	FILE *file;		   // rbp-0x8
-	int tmp;		   // rbp-0xc
-	char *buffer[96];  // rbp-0x70
-	char *buffer2[40]; // rbp-0xa0
-	char *buffer3[96]; // rbp-0x110
+	char *password[96];		 // rbp-0x110
+	char *password_file[40]; // rbp-0xa0
+	char *username[96];		 // rbp-0x70
+	int tmp;				 // rbp-0xc
+	FILE *file;				 // rbp-0x8
 
 	int i = 0;
 	while (i < 12)
 	{
 		int j = i * 8;
-		buffer[j] = 0;
-		buffer[j + 1] = 0;
-		buffer[j + 2] = 0;
-		buffer[j + 3] = 0;
-		buffer[j + 4] = 0;
-		buffer[j + 5] = 0;
-		buffer[j + 6] = 0;
-		buffer[j + 7] = 0;
+		username[j] = 0;
+		username[j + 1] = 0;
+		username[j + 2] = 0;
+		username[j + 3] = 0;
+		username[j + 4] = 0;
+		username[j + 5] = 0;
+		username[j + 6] = 0;
+		username[j + 7] = 0;
 		i++;
 	}
-	// same as bzero(buffer, 96);
+	// same as bzero(username, 96);
 
-	buffer[i * 8] = 0;
-	buffer + 4;
+	username[i * 8] = 0;
+	username + 4;
 
 	int i = 0;
 	while (i < 5)
 	{
 		int j = i * 8;
-		buffer2[j] = 0;
-		buffer2[j + 1] = 0;
-		buffer2[j + 2] = 0;
-		buffer2[j + 3] = 0;
-		buffer2[j + 4] = 0;
-		buffer2[j + 5] = 0;
-		buffer2[j + 6] = 0;
-		buffer2[j + 7] = 0;
+		password_file[j] = 0;
+		password_file[j + 1] = 0;
+		password_file[j + 2] = 0;
+		password_file[j + 3] = 0;
+		password_file[j + 4] = 0;
+		password_file[j + 5] = 0;
+		password_file[j + 6] = 0;
+		password_file[j + 7] = 0;
 		i++;
 	}
-	// same as bzero(buffer2, 40);
+	// same as bzero(password_file, 40);
 
-	buffer2[i * 8] = 0;
-	buffer2 + 1;
+	password_file[i * 8] = 0;
+	password_file + 1;
 
 	int i = 0;
 	while (i < 12)
 	{
 		int j = i * 8;
-		buffer3[j] = 0;
-		buffer3[j + 1] = 0;
-		buffer3[j + 2] = 0;
-		buffer3[j + 3] = 0;
-		buffer3[j + 4] = 0;
-		buffer3[j + 5] = 0;
-		buffer3[j + 6] = 0;
-		buffer3[j + 7] = 0;
+		password[j] = 0;
+		password[j + 1] = 0;
+		password[j + 2] = 0;
+		password[j + 3] = 0;
+		password[j + 4] = 0;
+		password[j + 5] = 0;
+		password[j + 6] = 0;
+		password[j + 7] = 0;
 		i++;
 	}
-	// same as bzero(buffer3, 96);
+	// same as bzero(password, 96);
 
-	buffer3[i * 8] = 0;
-	buffer3 + 4;
+	password[i * 8] = 0;
+	password + 4;
 
 	file = NULL;
 	tmp = 0;
@@ -77,10 +77,10 @@ int main(int argc, const char **argv)
 		fwrite("ERROR: failed to open password file\n", 1, 36, stderr);
 		exit(1);
 	}
-	tmp = fread(buffer2, 1, 0x29, file);
+	tmp = fread(password_file, 1, 41, file);
 
-	int res = strcspn(buffer2, "\n");
-	buffer2[res] = '\0';
+	int res = strcspn(password_file, "\n");
+	password_file[res] = '\0';
 
 	if (tmp != 41)
 	{
@@ -89,31 +89,31 @@ int main(int argc, const char **argv)
 	}
 	fclose(file);
 	puts("===== [ Secure Access System v1.0 ] =====");
-	puta("/***************************************\\");
+	puts("/***************************************\\");
 	puts("| You must login to access this system. |");
 	puts("\**************************************/");
 	printf("--[ Username: ");
-	fgets(buffer, 100, stdin);
+	fgets(username, 100, stdin);
 
-	int res = strcspn(buffer, "\n");
-	buffer[res] = '\0';
+	int res = strcspn(username, "\n");
+	username[res] = '\0';
 
 	printf("--[ Password: ");
 
-	fgets(buffer3, 100, stdin);
-	int res = strcspn(buffer3, "\n");
-	buffer3[res] = '\0';
+	fgets(password, 100, stdin);
+	int res = strcspn(password, "\n");
+	password[res] = '\0';
 
 	puts("*****************************************");
 
-	if (!strncmp(buffer2, buffer3, 41))
+	if (strncmp(password_file, password, 41))
 	{
-		printf(buffer);
+		printf(username);
 		puts(" does not have access!");
 		exit(1);
 	}
 
-	printf("Greetings, %s!\n", buffer);
+	printf("Greetings, %s!\n", username);
 	system("/bin/sh");
 	return 0;
 }
