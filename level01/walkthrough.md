@@ -170,8 +170,16 @@ On va donc injecter un shellcode et remplacer l'**eip sauvegardé** par l'adress
 On peut par exemple injecter du shellcode, dans le premier argument. En effet, c'est un buffer assez gros de 256 caractères, ce qui nous laisse pas mal de place pour écrire notre shellcode.
 Cependant, il faudra bien l'écrire après "dat_wil" car on doit quand même respecter la condition de l'username si on veut faire un buffer overflow sur le deuxième appel à la fonction `fgets` (qui attend le mot de passe). La comparaison se basant uniquement sur les 7 premiers caractères, cela ne pose pas problème.
 
-### Commande
+### Commandes
+
+Depuis l'hôte :
 
 ```bash
-(cat args/arg1 ; cat args/arg2) | ./level01
+make && ./generator shellcodes/cat_pwd.s && sshpass -p 'uSq2ehEGT6c9S24zbshexZQBXUGrncxn5sD5QfGL' scp -P 4242 -r args level01@localhost:/tmp/
+```
+
+Sur la vm :
+
+```bash
+(cat /tmp/args/arg1 ; cat /tmp/args/arg2) | ./level01
 ```
