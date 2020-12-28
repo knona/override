@@ -188,6 +188,8 @@ On fait donc seulement appel à la fonction _decrypt_ lorsque la différence est
 
 En testant ces valeurs on se rend compte qu'un shell s'ouvre lorsque la différence vaut 18.
 
-```
+### Commandes
+
+```bash
 (echo "322424827"; cat) | ./level03
 ```
