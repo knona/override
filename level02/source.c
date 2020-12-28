@@ -4,22 +4,10 @@
 #include <strings.h>
 #include <stdlib.h>
 
-// r < <(sleep .3 ; cat test test)
-
-// b *0x4008ad  set $rax = 0x00007ffff7dd4340
-
-// PwBLgNa8p8MTKW57S7zxVAQCxnCpV8JqTTs9XEBv
-
-// b *0x400981 set $rax = 0x00007ffff7dd4180
-
-// %llx %llx %llx %llx %llx %llx %llx %llx %llx %llx %llx
-
-// b *0x400a24
-
 int main(int argc, const char **argv)
 {
 	char *password[96];		 // rbp-0x110
-	char *password_file[40]; // rbp-0xa0 0x 7f ff ff ff e5 40
+	char *password_file[40]; // rbp-0xa0
 	char *username[96];		 // rbp-0x70
 	int tmp;				 // rbp-0xc
 	FILE *file;				 // rbp-0x8

