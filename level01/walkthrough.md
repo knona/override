@@ -1,6 +1,6 @@
 # Level 01
 
-Lorsqu'on exécute le binaire un username est demandé sur l'entrée standard.
+Lorsqu'on exécute le binaire un username est attendu sur l'entrée standard.
 
 En désassemblant le binaire, on a deux fonctions _verify_user_name_ et _verify_user_pass_ appelées par la fonction _main_.
 

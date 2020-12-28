@@ -2,7 +2,7 @@
 
 ## Analyse du binaire
 
-Lorsqu'on exécute le binaire un username puis un mot de passe est demandé sur l'entrée standard.
+Lorsqu'on exécute le binaire un username puis un mot de passe est attendu sur l'entrée standard.
 
 On remarque que l'architecture pour laquelle a été conçue le binaire est différente de tous les exercices précédents. En effet il s'agit ici d'une architecture 64 bits **amd64** et non plus **i386**.
 Le code asm va donc différer un peu. Les registres 64 bits font leurs apparitions :
