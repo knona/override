@@ -24,62 +24,9 @@ int main(int argc, const char **argv)
 	int tmp;				 // rbp-0xc
 	FILE *file;				 // rbp-0x8
 
-	int i = 0;
-	while (i < 12)
-	{
-		int j = i * 8;
-		username[j] = 0;
-		username[j + 1] = 0;
-		username[j + 2] = 0;
-		username[j + 3] = 0;
-		username[j + 4] = 0;
-		username[j + 5] = 0;
-		username[j + 6] = 0;
-		username[j + 7] = 0;
-		i++;
-	}
-	// same as bzero(username, 96);
-
-	username[i * 8] = 0;
-	username + 4;
-
-	int i = 0;
-	while (i < 5)
-	{
-		int j = i * 8;
-		password_file[j] = 0;
-		password_file[j + 1] = 0;
-		password_file[j + 2] = 0;
-		password_file[j + 3] = 0;
-		password_file[j + 4] = 0;
-		password_file[j + 5] = 0;
-		password_file[j + 6] = 0;
-		password_file[j + 7] = 0;
-		i++;
-	}
-	// same as bzero(password_file, 40);
-
-	password_file[i * 8] = 0;
-	password_file + 1;
-
-	int i = 0;
-	while (i < 12)
-	{
-		int j = i * 8;
-		password[j] = 0;
-		password[j + 1] = 0;
-		password[j + 2] = 0;
-		password[j + 3] = 0;
-		password[j + 4] = 0;
-		password[j + 5] = 0;
-		password[j + 6] = 0;
-		password[j + 7] = 0;
-		i++;
-	}
-	// same as bzero(password, 96);
-
-	password[i * 8] = 0;
-	password + 4;
+	bzero(username, 96);	  // not really a call to bzero function
+	bzero(password_file, 40); // not really a call to bzero function
+	bzero(password, 96);	  // not really a call to bzero function
 
 	file = NULL;
 	tmp = 0;
@@ -101,18 +48,18 @@ int main(int argc, const char **argv)
 		exit(1);
 	}
 	fclose(file);
+
 	puts("===== [ Secure Access System v1.0 ] =====");
 	puts("/***************************************\\");
 	puts("| You must login to access this system. |");
 	puts("\**************************************/");
+
 	printf("--[ Username: ");
 	fgets(username, 100, stdin);
-
 	int res = strcspn(username, "\n");
 	username[res] = '\0';
 
 	printf("--[ Password: ");
-
 	fgets(password, 100, stdin);
 	int res = strcspn(password, "\n");
 	password[res] = '\0';
