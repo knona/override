@@ -4,21 +4,31 @@
 #include <strings.h>
 #include <stdlib.h>
 
-void decrypt(int random)
+void decrypt(int nb)
 {
+	[...]
+	if ([...])
+		system("/bin/sh");
+	else
+		puts("\nInvalid Password");
 }
 
 void test(int a, int b)
 {
 	int diff = b - a; // ebp - 0xc
 
-	if (diff == 0x15) // unsigned comparison
+	if (diff > 21)
 	{
 		decrypt(rand());
 		return;
 	}
-	decrypt(diff);
-	// jmp to : diff << 2 + 0x80489f0;
+	else // jump to adress pointed by : diff << 2 + 0x80489f0
+	{
+		if (diff == 0 || (diff >= 10 && diff <= 15))
+			decrypt(rand());
+		else
+			decrypt(diff);
+	}
 }
 
 int main(int argc, const char **argv)
@@ -31,6 +41,6 @@ int main(int argc, const char **argv)
 	puts("***********************************");
 	printf("Password:");
 	scanf("%d", &a);
-	test(a, 0x1337d00d);
+	test(a, 322424845);
 	return (0);
 }
