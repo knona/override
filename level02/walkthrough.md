@@ -4,8 +4,8 @@
 
 Lorsqu'on exécute le binaire un username puis un mot de passe est demandé sur l'entrée standard.
 
-On remarque que l'architecture pour laquelle a été conçue le binaire est différente de tous les précédents exercices. En effet il s'aggit ici d'une architecture 64 bits **amd64** et non plus **i386**.
-Le code asm va donc différer un peu. Il y a donc l'apparition des registres 64 bits :
+On remarque que l'architecture pour laquelle a été conçue le binaire est différente de tous les exercices précédents. En effet il s'agit ici d'une architecture 64 bits **amd64** et non plus **i386**.
+Le code asm va donc différer un peu. Les registres 64 bits font leurs apparitions :
 
 | 64 bits registers | Lower 32 bits | Lower 16 bits | Lower 8 bits |
 | ----------------- | ------------- | ------------- | ------------ |
@@ -29,7 +29,8 @@ Le code asm va donc différer un peu. Il y a donc l'apparition des registres 64 
 Les _calling conventions_ sont aussi différentes. De [wikipedia](https://en.wikipedia.org/wiki/X86_calling_conventions#x86-64_calling_conventions) :
 
 ```
-The first six integer or pointer arguments are passed in registers RDI, RSI, RDX, RCX, R8, R9 (R10 is used as a static chain pointer in case of nested functions), while XMM0, XMM1, XMM2, XMM3, XMM4, XMM5, XMM6 and XMM7 are used for the first floating point arguments.
+The first six integer or pointer arguments are passed in registers RDI, RSI, RDX, RCX, R8, R9 (R10 is used as a static chain pointer in case of nested functions),
+while XMM0, XMM1, XMM2, XMM3, XMM4, XMM5, XMM6 and XMM7 are used for the first floating point arguments.
 As in the Microsoft x64 calling convention, additional arguments are passed on the stack.
 
 ```
@@ -104,7 +105,7 @@ int main(int argc, const char **argv)
 
 ## Débuguer le programme
 
-Ce level, ouvrant et lisant le mot de passe de level03, il est difficile d'utiliser un débugueur puisqu'il n'a donc pas les droits sur ce fichier. Pour pouvoir débuguer un minimum, on peut lors de la lecture utiliser comme fichier l'entrée standard à la place du mot de passe. Pour ce faire il faut faire utiliser les commandes suivantes dans gdb :
+Le binaire ouvrant et lisant le mot de passe de level03, il est difficile d'utiliser un débugueur puisqu'il n'a donc pas les droits sur ce fichier. Pour pouvoir débuguer un minimum, on peut lors de la lecture utiliser comme fichier l'entrée standard à la place du mot de passe. Pour ce faire il faut utiliser les commandes suivantes dans gdb :
 
 Dans un premier temps on place les breakpoints où l'on veut. Par exemple, juste après le 2e _fgets_ :
 
@@ -112,7 +113,7 @@ Dans un premier temps on place les breakpoints où l'on veut. Par exemple, juste
 b *0x400a24
 ```
 
-On place deux breakpoints, un à la suite de _fopen_, un avant l'appel de _fclose_.
+- On place deux breakpoints, un à la suite de _fopen_, un avant l'appel de _fclose_. Puis on run le programme.
 
 ```gdb
 b *0x4008ad
@@ -141,9 +142,9 @@ On peut penser au début que la faille vient de la comparaison entre le mot de p
 strncmp(password_file, password, 41)
 ```
 
-Cependant, tous les buffers alloués possèdent la bonne taille et ils sont protégés. On ne peut donc pas utiliser de **buffer overflow** pour modifier le mot de passe provenant du fichier et ensuite accéder au shelllancé par la commande système.
+Cependant, tous les buffers alloués possèdent la bonne taille et ils sont protégés. On ne peut donc pas utiliser de **buffer overflow** pour modifier le mot de passe provenant du fichier et ensuite accéder au shell lancé par la commande système.
 
-Cependant, on remarque juste après que cette comparaison échoue un appel à la fonction _printf_ avec comme argument l'argument _username_ :
+Cependant, on remarque juste après que cette comparaison ait échouée un appel à la fonction _printf_ avec comme argument le buffer _username_ :
 
 ```c
 printf(username);
