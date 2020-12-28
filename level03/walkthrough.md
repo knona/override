@@ -184,7 +184,7 @@ void test(int a, int b)
 }
 ```
 
-On fait donc seulement appel à la fonction _decrypt_ lorsque la différence est comprise entre 1 et 9 ou 16 et 21.
+On fait donc seulement un appel à la fonction _decrypt_ lorsque la différence est comprise entre 1 et 9 ou 16 et 21.
 
 En testant ces valeurs on se rend compte qu'un shell s'ouvre lorsque la différence vaut 18.
 
