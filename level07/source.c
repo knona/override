@@ -6,6 +6,12 @@
 
 typedef unsigned int uint;
 
+// system 0xf7e6aed0
+// /bin/sh 0xf7f897ec
+
+// eip main 0xffffd60c
+// buffer 0xffffd444
+
 void clear_stdin(void)
 {
 	int c; // ebp-0x9
@@ -52,8 +58,7 @@ int store_number(char *data)
 	printf(" Index: ");
 	index = get_unum();
 
-	int tmp = index * 0xaaaaaaab;
-	tmp <<= 1;
+	int tmp = index / 3;
 	tmp *= 3;
 
 	if (index - tmp == 0 || nb >> 24 != 183)
@@ -94,6 +99,7 @@ int main(int argc, const char **argv, char **envp)
 		memset(env[0], 0, strlen(env[0]));
 		env += 4;
 	}
+
 	puts("----------------------------------------------------");
 	puts("   Welcome to wil's crappy number storage service!  ");
 	puts("----------------------------------------------------");
