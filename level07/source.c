@@ -6,11 +6,15 @@
 
 typedef unsigned int uint;
 
-// system 0xf7e6aed0
-// /bin/sh 0xf7f897ec
+// system 0xf7e6aed0 =  4159090384
+// /bin/sh 0xf7f897ec =  4160264172
 
 // eip main 0xffffd60c
+// eip + 8  0xffffd614
 // buffer 0xffffd444
+
+// nombre pour écraser eip : 0x80000072 = 2147483762
+// nombre pour écraser eip + 8 : 0x00000074 = 116
 
 void clear_stdin(void)
 {
