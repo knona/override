@@ -4,8 +4,6 @@
 #include <strings.h>
 #include <stdlib.h>
 
-typedef unsigned int uint;
-
 int main(int argc, const char **argv)
 {
 	char buffer[100]; // esp+0x28
