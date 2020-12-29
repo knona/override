@@ -39,7 +39,7 @@ Il nous faut trouver ces deux adresses. On commence par introduire notre shellco
 export SCRIPT="$(cat /tmp/args/env_var)"
 ```
 
-Ensuite dans gdb on place un breakpoint au niveau du printf, puis on rentre dans la fonction pour récupérer l'**eip sauvergardé** :
+Ensuite dans gdb on place un breakpoint au niveau de la fonction _printf_, puis on rentre dans la fonction pour récupérer l'**eip sauvergardé** :
 
 ```gdb
 b *0x8048507
@@ -68,9 +68,9 @@ $ echo "aaaaaaaaaaaaaaaaa %x %x %x %x %x %x %x %x %x %x %x %x %x %x"
 aaaaaaaaaaaaaaaaa 64 f7fcfac0 0 0 0 0 ffffffff ffffd4e4 f7fdb000 61616161 61616161 61616161 61616161 78252061
 ```
 
-On se rend compte que notre début de string est écrit dans la stack qu'à partir du dixième argument. On peut donc utiliser la format string suivante : `ADDR %WIDTHx %10$n`, avec _ADDR_ qui correspond à l'adresse où l'on veut écrire donc l'**eip sauvegardé** et _WIDTH_ l'adresse où se situe notre shellcode.
+On se rend compte que notre début de string est écrit dans la stack qu'à partir du dixième argument. On peut donc utiliser la format string suivante : `ADDR %WIDTHx %10$n`, avec _ADDR_ qui correspond à l'adresse où l'on veut écrire donc l'**eip sauvegardé** et _WIDTH_ l'adresse (en décimal) où se situe notre shellcode.
 
-Cependant l'adresse où se sitre notre shellcode, étant assez grande, la _width_ est trop grande et pas prise en compte. Même en ayant 4 arguments de la _width_ divisé par 4, cela ne marche pas.
+Cependant l'adresse où se sitre notre shellcode, étant assez grande, la _width_ est trop grande et pas prise en compte. Même en ayant 4 arguments de valeur _width_ divisé par 4, cela ne marche pas.
 
 Pour palier à ce problème, on va écrire les 2 octets les plus bas de notre adresse à l'**eip sauvegardé** et les 2 octets les plus haut à l'**eip sauvegardé + 2**. On obtient donc : `ADDR ADDR+2 %WIDTH1x %10$n %WIDTH2x %11$n`. Voir Ressources/generator.cpp.
 
