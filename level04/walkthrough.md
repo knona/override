@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 {
 	if (argc != 2)
 	{
-		printf("%s <ENV_VAR>\n", argv[0]);
+		printf("Usage: %s <ENV_VAR>\n", argv[0]);
 		return 1;
 	}
 	char* ptr = getenv(argv[1]);
