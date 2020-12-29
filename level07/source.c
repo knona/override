@@ -6,12 +6,65 @@
 
 typedef unsigned int uint;
 
+void clear_stdin(void)
+{
+	int c; // ebp-0x9
+
+	c = 0;
+	while (c != 0xff)
+	{
+		c = getchar();
+		if (c == '\n')
+			return;
+	}
+}
+
+int get_unum(void)
+{
+	uint nb; // ebp-0xc
+
+	nb = 0;
+	fflush(stdout);
+	scanf("%u", &nb);
+	clear_stdin();
+	return nb;
+}
+
 int read_number(char *data)
 {
+	uint index; // ebp-0xc
+
+	printf(" Index: ");
+	index = get_unum();
+	printf(" Number at data[%u] is %u\n", index, data[index << 2]); // index << 2 ?
+	return 0;
 }
 
 int store_number(char *data)
 {
+	uint nb;	// ebp-0x10
+	uint index; // ebp-0xc
+
+	nb = 0;
+	index = 0;
+	printf(" Number: ");
+	nb = get_unum();
+	printf(" Index: ");
+	index = get_unum();
+
+	int tmp = index * 0xaaaaaaab;
+	tmp <<= 1;
+	tmp *= 3;
+
+	if (index - tmp == 0 || nb >> 24 != 183)
+	{
+		puts(" *** ERROR! ***");
+		puts("   This index is reserved for wil!");
+		puts(" *** ERROR! ***");
+		return 1;
+	}
+	data[index << 2] = nb;
+	return 0;
 }
 
 int main(int argc, const char **argv, char **envp)
