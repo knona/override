@@ -34,14 +34,14 @@ int auth(char *login, uint serial)
 			return 1;
 
 		int c = login[i] ^ res;
-		int nb = 0x88233b2b * c;
+		int nb = (c * 0x88233b2b) & 0xffffffff00000000;
 		int nb2 = c - nb;
 
-		nb2 >> 1;
+		nb2 >>= 1;
 		nb2 += nb;
-		nb2 >> 10;
+		nb2 >>= 10;
 		nb2 *= 0x539;
-		res = res + c - nb2;
+		res += c - nb2;
 		i++;
 	}
 
