@@ -186,7 +186,7 @@ On doit donc :
 On commence par faire la différence entre l'adresse de notre buffer et l'**eip sauvegardé** : `0xffffd60c - 0xffffd444 = 1C8 (hex) = 456 (dec)`. On doit donc diviser ce nombre par 4, ce qui nous donne 114. Problème : cet index est un multiple de 3 et la condition n'est donc pas respectée dans la fonction _store_number_. Sachant que la condition sur la division par 3 est fait **avant** le décalage binaire, on peut modifier les 2 premiers bits de notre index, puisque lors du décalage ces derniers vont "disparaître". On peut donc par exemple modifier le 1er bit à 1 ce qui nous donne :
 
 ```
-0000 0000 0000 0000 0000 0000 0111 0010 (bin) = 72 (hex) = 114 (dec)
+0000 0000 0000 0000 0000 0000 0111 0010 (bin) =       72 (hex) =        114 (dec)
 1000 0000 0000 0000 0000 0000 0111 0010 (bin) = 80000072 (hex) = 2147483762 (dec)
 ```
 
