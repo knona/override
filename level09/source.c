@@ -6,8 +6,16 @@
 
 typedef unsigned int uint;
 
+void secret_backdoor()
+{
+	char *buffer;
+
+	fgets(buffer, 0x80, 0);
+	system(buffer);
+}
+
 void set_message(
-	char *message // rbp-0x408
+	char *data // rbp-0x408
 )
 {
 	char buffer[1024]; // rbp-0x400
@@ -15,38 +23,38 @@ void set_message(
 	bzero(buffer, 1024);
 	puts(">: Msg @Unix-Dude");
 	printf(">>: ");
-	fgets(buffer, 0x400, 0);
-	strncpy(message, buffer, message[0xb4]);
+	fgets(buffer, 1024, 0);
+	strncpy(data, buffer, data[180]);
 }
 
 void set_username(
-	char *username // rbp-0x98
+	char *data // rbp-0x98
 )
 {
 	char buffer[128]; // rbp-0x90
 	uint i;			  // rbp-0x4
 
 	bzero(buffer, 128);
-	puts(">: Enter your username");
+	puts(">: Enter your data");
 	printf(">>: ");
 	fgets(buffer, 128, 0);
 	i = 0;
 	while (i <= 40 && buffer[i])
 	{
-		(username + 0x8c)[i] = buffer[i];
+		(data + 140)[i] = buffer[i];
 		i++;
 	}
-	printf(">: Welcome, %s", username + 0x8c);
+	printf(">: Welcome, %s", data + 140);
 }
 
 void handle_msg(void)
 {
-	char *username; // rbp-0xc0
+	char *data; // rbp-0xc0
 
-	bzero(username + 0x8c, 40);
-	*(username + 0xb4) = 0x8c;
-	set_username(username);
-	set_message(username);
+	bzero(data + 140, 40);
+	data[180] = 140;
+	set_username(data);
+	set_message(data);
 	puts(">: Msg sent!");
 }
 

