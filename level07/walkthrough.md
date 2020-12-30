@@ -6,7 +6,7 @@ Lorsqu'on exécute le binaire, une "commande" est attendue sur l'entrée standar
 
 - **read** : lit un nombre à un index voulu
 - **store** : stocke un nombre voulu à un index voulu
-- **quit** : sort du programme
+- **quit** : quitte le programme
 
 Le code asm est assez long, on retrouve notamment les instructions :
 
@@ -164,7 +164,7 @@ int main(int argc, const char **argv, char **envp)
 }
 ```
 
-# Exploit
+## Exploit
 
 On se doute qu'il faut utiliser la commande **read** pour écraser des valeurs intéressantes de la mémoire. En regardant le code de la fonction _store_number_, on remarque que notre index subit un décalage binaire à gauche de 2, soit une multiplication par 4. Le nombre que nous allons donné à la commande read sera donc stocké à l'adresse `DATA_ADDR + INDEX * 4`.
 
@@ -190,7 +190,9 @@ On commence par faire la différence entre l'adresse de notre buffer et l'**eip 
 1000 0000 0000 0000 0000 0000 0111 0010 (bin) = 80000072 (hex) = 2147483762 (dec)
 ```
 
-Pour l'index suivant qui est 116, cela ne pose pas de problème car il n'est pas divisible par 3.
+Le nombre 214748376 n'est pas un multiple de 3 : `2147483762 = 3 * 715827920 + 2`.
+
+Pour l'index suivant qui est 116, cela ne pose pas de problème car il n'est pas un multiple de 3.
 
 Finalement on exécute la commande :
 
