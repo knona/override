@@ -1,4 +1,4 @@
-## Level 09
+# Level 09
 
 Lorsqu'on exécute le binaire, un username puis un message est attendu sur l'entrée standard.
 
@@ -70,7 +70,7 @@ On remarque rapidement quelque chose d'étrange dans la fonction _set_message_. 
 
 Si on l'écrase par une valeur plus haute, on pourra overflow le buffer et écraser le **rip sauvegardé** par l'adresse de notre choix. Par exemple l'adresse de la fonction _secret_backdoor_ qui exécute la commande _system_ avec l'argument de notre choix.
 
-Sachant que l'username est écrit à l'adresse `buffer + 140` et qu'il faut modifier le 180e octet, il faudra un padding de 40 octets. Le 41e octet sera la taille copié par le strncpy, qu'on peut mettre à la valeur maximale d'un octet `0xff (hex) = 255 (dec)`.
+Sachant que l'username est écrit à l'adresse `buffer + 140` et qu'il faut modifier le 180e octet, il faudra un padding de 40 octets. Le 41e octet sera la taille copié par la fonction _strncpy_, qu'on peut mettre à la valeur maximale d'un octet `0xff (hex) = 255 (dec)`.
 
 De plus le **rip sauvegardé** est séparé de 200 octets de l'adresse du buffer donc toutes les conditions sont réunies pour effectuer cet exploit.
 
