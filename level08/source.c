@@ -16,7 +16,9 @@ void log_wrapper(FILE *backup,	 // rbp-0x118
 
 	strcpy(buffer, line);
 	snprintf(buffer + strlen(buffer), 254 - strlen(buffer), file_path);
+
 	buffer[strcspn(buffer, "\n")] = 0;
+
 	fprintf(backup, "LOG: %s\n", buffer);
 }
 
@@ -24,11 +26,11 @@ int main(int argc,		   // rbp-0x94
 		 const char **argv // rbp-0xa0
 )
 {
-	FILE *backup; // rbp-0x88
-	FILE *file;	  // rbp-0x80
-	int fd_log;	  // rbp-0x78
-	char *str;	  // rbp-0x70
-	char c;		  // rbp-0x71
+	FILE *backup;  // rbp-0x88
+	FILE *file;	   // rbp-0x80
+	int fd_log;	   // rbp-0x78
+	char str[100]; // rbp-0x70
+	char c;		   // rbp-0x71
 
 	if (argc != 2)
 		printf("Usage: %s filename\n", argv[0]);
@@ -49,8 +51,8 @@ int main(int argc,		   // rbp-0x94
 		exit(1);
 	}
 
-	str = "./backups/";
-	strncat(str, argv[1], 0x63 - strlen(str));
+	memcpy(str, "./backups/", 10);
+	strncat(str, argv[1], 99 - strlen(str));
 	fd_log = open(str, O_WRONLY | O_CREAT | O_EXCL);
 	if (fd_log < 0)
 	{
