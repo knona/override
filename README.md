@@ -2,7 +2,7 @@
 
 ## Présentation du projet
 
-Override est un projet d'exploitation de binaires. Il va falloir user de différentes failles, notamment des **buffer overflow** et des **format string attack**.
+Override est un projet d'exploitation de binaires et de reverse engineering. Il va falloir user de différentes failles, notamment des **buffer overflow** et des **format string attack**.
 
 Le projet se fait avec une machine virtuelle. Les utilisateurs s'appelent tous `levelXX` où `XX` est le numéro du level. Vous pouvez vous vous connecter au premier utilisateur avec le couple login / mot de passe suivant : `level00:level00`. Tous les utilisateurs possèdent un fichier `.pass` dans leur _home_ contenant leur mot de passe. Le but est donc d'exploiter le binaire afin d'obtenir le mot de passe du prochain level.
 
