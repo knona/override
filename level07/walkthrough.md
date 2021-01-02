@@ -166,7 +166,7 @@ int main(int argc, const char **argv, char **envp)
 
 ## Exploit
 
-On se doute qu'il faut utiliser la commande **read** pour écraser des valeurs intéressantes de la mémoire. En regardant le code de la fonction _store_number_, on remarque que notre index subit un décalage binaire à gauche de 2, soit une multiplication par 4. Le nombre que nous allons donné à la commande read sera donc stocké à l'adresse `DATA_ADDR + INDEX * 4`.
+On se doute qu'il faut utiliser la commande **store** pour écraser des valeurs intéressantes de la mémoire. En regardant le code de la fonction _store_number_, on remarque que notre index subit un décalage binaire à gauche de 2, soit une multiplication par 4. Le nombre que nous allons donné à la commande read sera donc stocké à l'adresse `DATA_ADDR + INDEX * 4`.
 
 Cependant, on note aussi que l'index ne doit pas être un multiple de 3 et que le 1er octet du nombre que ne voulons stocké doit être différent de `0xb7`.
 

